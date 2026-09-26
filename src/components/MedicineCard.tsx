@@ -1,6 +1,6 @@
 import { useLang } from '@/context/LanguageContext';
 import type { ExtractedMedicine } from '@/data/demoData';
-import { CheckCircle2, AlertTriangle, Pill, Package, Beaker, Hash } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, Pill, Beaker, Hash } from 'lucide-react';
 
 interface MedicineCardProps {
   medicine: ExtractedMedicine;
@@ -20,63 +20,55 @@ export default function MedicineCard({
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-5">
-      {/* Status badge */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          {isClear ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              {t.medicine.clearlyRead}
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-sm font-medium">
-              <span className="w-2 h-2 rounded-full bg-amber-500" />
-              {t.medicine.needsVerification}
-            </span>
-          )}
+      {/* Status badge + name */}
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div>
+          <h3 className="text-xl font-bold text-slate-800">
+            {medicine.name}
+          </h3>
+          <p className="text-sm text-slate-400 mt-0.5">
+            {medicine.dosage_form}
+          </p>
         </div>
+        {isClear ? (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium shrink-0">
+            <span className="w-2 h-2 rounded-full bg-green-500" />
+            {t.medicine.clearlyRead}
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-sm font-medium shrink-0">
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
+            {t.medicine.needsVerification}
+          </span>
+        )}
       </div>
 
-      {/* Medicine name */}
-      <h3 className="text-xl font-bold text-slate-800 mb-3">
-        {medicine.name}
-      </h3>
-
       {/* Details grid */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="flex items-center gap-2">
           <Beaker className="w-4 h-4 text-slate-400 shrink-0" />
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-slate-400">{t.medicine.strength}</p>
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-slate-700 truncate">
               {medicine.strength}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Pill className="w-4 h-4 text-slate-400 shrink-0" />
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-slate-400">{t.medicine.form}</p>
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-slate-700 truncate">
               {medicine.dosage_form}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Hash className="w-4 h-4 text-slate-400 shrink-0" />
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-slate-400">{t.medicine.quantity}</p>
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-slate-700 truncate">
               {medicine.quantity}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Package className="w-4 h-4 text-slate-400 shrink-0" />
-          <div>
-            <p className="text-xs text-slate-400">{t.medicine.name}</p>
-            <p className="text-sm font-semibold text-slate-700">
-              {medicine.name}
             </p>
           </div>
         </div>
@@ -90,7 +82,7 @@ export default function MedicineCard({
         {onViewDetails && (
           <button
             onClick={onViewDetails}
-            className="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium hover:bg-slate-200 transition-colors"
+            className="flex-1 min-w-[120px] px-4 py-2.5 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium hover:bg-slate-200 transition-colors"
           >
             {t.medicine.viewDetails}
           </button>
@@ -98,7 +90,7 @@ export default function MedicineCard({
         {onComparePrices && (
           <button
             onClick={onComparePrices}
-            className="px-4 py-2 rounded-lg bg-teal-50 text-teal-700 text-sm font-medium hover:bg-teal-100 transition-colors"
+            className="flex-1 min-w-[120px] px-4 py-2.5 rounded-lg bg-teal-50 text-teal-700 text-sm font-medium hover:bg-teal-100 transition-colors"
           >
             {t.medicine.comparePrices}
           </button>
@@ -106,7 +98,7 @@ export default function MedicineCard({
         {onFindNearby && (
           <button
             onClick={onFindNearby}
-            className="px-4 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm font-medium hover:bg-blue-100 transition-colors"
+            className="flex-1 min-w-[120px] px-4 py-2.5 rounded-lg bg-blue-50 text-blue-700 text-sm font-medium hover:bg-blue-100 transition-colors"
           >
             {t.medicine.findNearby}
           </button>
@@ -130,15 +122,9 @@ function MedicineBridgeCheck({ medicine }: { medicine: ExtractedMedicine }) {
       </p>
       {allGood ? (
         <div className="space-y-1">
-          {hasName && (
-            <CheckItem text={t.medicine.nameIdentified} />
-          )}
-          {hasStrength && (
-            <CheckItem text={t.medicine.strengthIdentified} />
-          )}
-          {hasQuantity && (
-            <CheckItem text={t.medicine.quantityIdentified} />
-          )}
+          {hasName && <CheckItem text={t.medicine.nameIdentified} />}
+          {hasStrength && <CheckItem text={t.medicine.strengthIdentified} />}
+          {hasQuantity && <CheckItem text={t.medicine.quantityIdentified} />}
         </div>
       ) : (
         <div className="flex items-center gap-1.5 text-amber-600">
